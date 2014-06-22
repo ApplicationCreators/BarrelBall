@@ -8,10 +8,10 @@ public class Barrel extends Circle{
 	float rail_width;
 	float rail_height;
 	
-	public Barrel(float x, float y, float radius, float rail_width, float rail_height) {
+	public Barrel(float x, float y, float radius, float rail_x, float rail_y, float rail_width, float rail_height) {
 		super(x, y, radius);
-		this.rail_position[0] = x;
-		this.rail_position[1] = y;
+		this.rail_position[0] = rail_x;
+		this.rail_position[1] = rail_y;
 		this.rail_width = rail_width;
 		this.rail_height = rail_height;
 	}
