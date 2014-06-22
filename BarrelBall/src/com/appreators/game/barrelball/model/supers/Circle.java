@@ -15,4 +15,30 @@ public abstract class Circle implements BarrelBallObject{
 		this.speed[1] = 0;
 	}
 
+	public float[] getPosition() {
+		return position;
+	}
+
+	public void setPosition(float[] position) {
+		this.position = position;
+	}
+
+	public float getRadius() {
+		return radius;
+	}
+
+	public void setRadius(float radius) {
+		this.radius = radius;
+	}
+
+	public float[] getSpeed() {
+		return speed;
+	}
+
+	public void setSpeed(float[] speed) {
+		this.speed = speed;
+	}
+	
+	
+
 }

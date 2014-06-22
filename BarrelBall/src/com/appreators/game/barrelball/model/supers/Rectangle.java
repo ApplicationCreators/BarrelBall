@@ -16,4 +16,37 @@ public abstract class Rectangle implements BarrelBallObject{
 		this.speed[1] = 0;
 	}
 
+	public float[] getPosition() {
+		return position;
+	}
+
+	public void setPosition(float[] position) {
+		this.position = position;
+	}
+
+	public float getWidth() {
+		return width;
+	}
+
+	public void setWidth(float width) {
+		this.width = width;
+	}
+
+	public float getHeight() {
+		return height;
+	}
+
+	public void setHeight(float height) {
+		this.height = height;
+	}
+
+	public float[] getSpeed() {
+		return speed;
+	}
+
+	public void setSpeed(float[] speed) {
+		this.speed = speed;
+	}
+
+	
 }
