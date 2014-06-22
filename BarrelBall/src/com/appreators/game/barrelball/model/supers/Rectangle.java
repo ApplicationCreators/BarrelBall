@@ -7,7 +7,6 @@ public abstract class Rectangle implements BarrelBallObject{
 	float[] speed;
 	
 	public Rectangle(float x,float y,float width,float height) {
-		// TODO Auto-generated constructor stub
 		this.position[0] = x;
 		this.position[1] = y;
 		this.width = width;

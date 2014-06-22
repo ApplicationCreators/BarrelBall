@@ -7,7 +7,6 @@ public abstract class Circle implements BarrelBallObject{
 	float[] speed;
 	
 	public Circle(float x,float y,float radius) {
-		// TODO Auto-generated constructor stub	
 		this.position[0] = x;
 		this.position[1] = y;
 		this.radius = radius;
