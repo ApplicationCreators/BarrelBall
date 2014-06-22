@@ -7,10 +7,12 @@ public abstract class Rectangle implements BarrelBallObject{
 	float[] speed;
 	
 	public Rectangle(float x,float y,float width,float height) {
+		this.position = new float[2];
 		this.position[0] = x;
 		this.position[1] = y;
 		this.width = width;
 		this.height = height;
+		this.speed = new float[2];
 		this.speed[0] = 0;
 		this.speed[1] = 0;
 	}
