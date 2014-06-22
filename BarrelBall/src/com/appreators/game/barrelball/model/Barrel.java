@@ -42,6 +42,13 @@ public class Barrel extends Circle{
 
 	@Override
 	public void move() {
-		
+		position[0] += speed[0];
+		// Y方向に動くときはrailも一緒に動く
+		if(speed[1] > 0){
+			position[1] += speed[1];
+			rail_position[1] += speed[1];
+		}
+		// もしBarrelがRailを超えている場合は、x方向を逆方向に変更
+		speed[0] *= -1;
 	}
 }
