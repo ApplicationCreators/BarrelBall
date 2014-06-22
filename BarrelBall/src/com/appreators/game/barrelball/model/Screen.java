@@ -10,7 +10,7 @@ public class Screen {
 	
 	public Screen() {
 		barrels = new ArrayList<Barrel>();
-		rails = new ArrayList<>();
+		rails = new ArrayList<Rail>();
 	}
 	
 	public Ball getBall() {
@@ -20,11 +20,19 @@ public class Screen {
 		this.ball = ball;
 	}
 	
+	public ArrayList<Barrel> getBarrels() {
+		return barrels;
+	}
+	
 	public void addBarrel(Barrel barrel){
 		barrels.add(barrel);
 	}
 	public void removeBarrel(Barrel barrel){
 		barrels.remove(barrel);
+	}
+
+	public ArrayList<Rail> getRails() {
+		return rails;
 	}
 	
 	public void addRail(Rail rail){
@@ -34,4 +42,9 @@ public class Screen {
 	public void removeRail(Rail rail){
 		rails.remove(rail);
 	}
+
+	public void move(){
+		
+	}
+	
 }
