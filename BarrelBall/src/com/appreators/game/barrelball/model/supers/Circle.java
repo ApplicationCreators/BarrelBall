@@ -2,9 +2,9 @@ package com.appreators.game.barrelball.model.supers;
 
 public abstract class Circle implements BarrelBallObject{
 
-	float[] position;
-	float radius;
-	float[] speed;
+	protected float[] position;
+	protected float radius;
+	protected float[] speed;
 	
 	public Circle(float x,float y,float radius) {
 		this.position = new float[2];
@@ -16,6 +16,7 @@ public abstract class Circle implements BarrelBallObject{
 		this.speed[1] = 0;
 	}
 
+	@Override
 	public float[] getPosition() {
 		return position;
 	}

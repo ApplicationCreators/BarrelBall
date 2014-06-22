@@ -1,10 +1,10 @@
 package com.appreators.game.barrelball.model.supers;
 
 public abstract class Rectangle implements BarrelBallObject{
-	float[] position;
-	float width;
-	float height;
-	float[] speed;
+	protected float[] position;
+	protected float width;
+	protected float height;
+	protected float[] speed;
 	
 	public Rectangle(float x,float y,float width,float height) {
 		this.position = new float[2];
