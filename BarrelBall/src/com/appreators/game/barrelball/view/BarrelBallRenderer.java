@@ -44,6 +44,10 @@ public class BarrelBallRenderer implements GLSurfaceView.Renderer{
 	//描画を行う部分を記述するメソッドを追加する
 	public void renderMain(GL10 gl) {
 		Screen screen = controller.getScreen();
+		//////////////////// 次の位置へ移動
+		screen.move();
+		
+		//////////////////// 描画
 		// Ballの処理(BallがBarrelの裏にあることもあるので、Ballを先に描画する)
 		drawBall(gl,screen.getBall());
 		// Barrelの処理
@@ -51,7 +55,7 @@ public class BarrelBallRenderer implements GLSurfaceView.Renderer{
 		for(Barrel barrel : barrels)
 			drawBarrel(gl,barrel);
 		// Railの処理
-		ArrayList<Rail> rails = screen.getScreen();
+		ArrayList<Rail> rails = screen.getRails();
 		for(Rail rail : rails)
 			drawRail(gl,rail);
 	}
