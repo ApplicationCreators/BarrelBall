@@ -12,6 +12,7 @@ public abstract class Circle implements BarrelBallObject{
 		this.position[1] = y;
 		this.radius = radius;
 		this.speed[0]  = 0;
+		this.speed[1] = 0;
 	}
 
 }

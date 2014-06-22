@@ -11,8 +11,7 @@ public class Rail extends Rectangle{
 
 	@Override
 	public void move() {
-		// TODO Auto-generated method stub
-		
+		// TODO Auto-generated method stubｓ
 	}
 
 	@Override
