@@ -1,14 +1,19 @@
 package com.appreators.game.barrelball.view;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
 import com.appreators.game.barrelball.Global;
+import com.appreators.game.barrelball.controller.GameController;
+import com.appreators.game.barrelball.model.Ball;
+import com.appreators.game.barrelball.model.Barrel;
+import com.appreators.game.barrelball.model.Rail;
+import com.appreators.game.barrelball.utils.GraphicUtil;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.opengl.GLSurfaceView;
 import android.util.Log;
 
@@ -17,6 +22,8 @@ public class BarrelBallRenderer implements GLSurfaceView.Renderer{
 	
 	private int width;
 	private int height;
+	
+	private GameController controller;
 	
 	private long start_time;
 	private boolean game_over_flag;
@@ -28,14 +35,33 @@ public class BarrelBallRenderer implements GLSurfaceView.Renderer{
 	}
 	
 	public void startNewGame() {
-		Random rand = Global.rand;
 		this.start_time = System.currentTimeMillis();//開始時間を保持します
 		this.game_over_flag = false;//ゲームオーバー状態ではない
+		this.controller = new GameController();
 	}
 	
 	//描画を行う部分を記述するメソッドを追加する
 	public void renderMain(GL10 gl) {
-		
+		Screen screen = controller.getScreen();
+		// Ballの処理(BallがBarrelの裏にあることもあるので、Ballを先に描画する)
+		drawBall(gl,screen.getBall());
+		// Barrelの処理
+		ArrayList<Barrel> barrels = screen.getBarrels();
+		for(Barrel barrel : barrels)
+			drawBarrel(gl,barrel);
+		// Railの処理
+		ArrayList<Rail> rails = screen.getScreen();
+		for(Rail rail : rails)
+			drawRail(gl,rail);
+	}
+	public void drawBall(GL10 gl, Ball ball){
+		GraphicUtil.drawCircle(gl, ball.getPosition()[0], ball.getPosition()[1], 60, ball.getRadius(), 1.0f, 1.0f, 0.0f, 1.0f);
+	}
+	public void drawBarrel(GL10 gl, Barrel barrel){
+		GraphicUtil.drawCircle(gl, barrel.getPosition()[0], barrel.getPosition()[1], 60, barrel.getRadius(), 0.0f, 1.0f, 1.0f, 1.0f);
+	}
+	public void drawRail(GL10 gl, Rail rail){
+		GraphicUtil.drawRectangle(gl, rail.getPosition()[0], rail.getPosition()[1], rail.getWidth(), rail.getHeight(), 1.0f, 0.0f, 1.0f, 1.0f);
 	}
 	
 	//テクスチャを読み込むメソッド
@@ -76,7 +102,7 @@ public class BarrelBallRenderer implements GLSurfaceView.Renderer{
 		Global.gl = gl;//GLコンテキストを保持する
 		
 		//テクスチャをロードする
-//		loadTextures(gl);
+		loadTextures(gl);
 	}
 
 	@Override
