@@ -11,6 +11,7 @@ import com.appreators.game.barrelball.controller.GameController;
 import com.appreators.game.barrelball.model.Ball;
 import com.appreators.game.barrelball.model.Barrel;
 import com.appreators.game.barrelball.model.Rail;
+import com.appreators.game.barrelball.model.Screen;
 import com.appreators.game.barrelball.utils.GraphicUtil;
 
 import android.content.Context;

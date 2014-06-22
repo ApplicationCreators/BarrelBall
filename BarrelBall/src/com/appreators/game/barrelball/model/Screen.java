@@ -1,30 +1,37 @@
 package com.appreators.game.barrelball.model;
 
+import java.util.ArrayList;
+
 public class Screen {
 	
-	Barrel barrel;
+	ArrayList<Barrel> barrels;
 	Ball ball;
-	Rail rail;
+	ArrayList<Rail> rails;
 	
-	public Barrel getBarrel() {
-		return barrel;
+	public Screen() {
+		barrels = new ArrayList<Barrel>();
+		rails = new ArrayList<>();
 	}
-	public void setBarrel(Barrel barrel) {
-		this.barrel = barrel;
-	}
+	
 	public Ball getBall() {
 		return ball;
 	}
 	public void setBall(Ball ball) {
 		this.ball = ball;
 	}
-	public Rail getRail() {
-		return rail;
+	
+	public void addBarrel(Barrel barrel){
+		barrels.add(barrel);
 	}
-	public void setRail(Rail rail) {
-		this.rail = rail;
-	} 
-		
-
-
+	public void removeBarrel(Barrel barrel){
+		barrels.remove(barrel);
+	}
+	
+	public void addRail(Rail rail){
+		rails.add(rail);
+	}
+	
+	public void removeRail(Rail rail){
+		rails.remove(rail);
+	}
 }
