@@ -6,12 +6,20 @@ public class Screen {
 	
 	ArrayList<Barrel> barrels;
 	Ball ball;
-	ArrayList<Rail> rails;
 	
 	public Screen() {
 		barrels = new ArrayList<Barrel>();
-		rails = new ArrayList<Rail>();
 	}
+	
+
+	public void move(){
+		// Barrelを動かす
+		for(Barrel barrel : barrels)
+			barrel.move();
+		// Ballを動かす
+		ball.move();
+	}
+	
 	
 	public Ball getBall() {
 		return ball;
@@ -30,21 +38,4 @@ public class Screen {
 	public void removeBarrel(Barrel barrel){
 		barrels.remove(barrel);
 	}
-
-	public ArrayList<Rail> getRails() {
-		return rails;
-	}
-	
-	public void addRail(Rail rail){
-		rails.add(rail);
-	}
-	
-	public void removeRail(Rail rail){
-		rails.remove(rail);
-	}
-
-	public void move(){
-		
-	}
-	
 }

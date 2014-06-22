@@ -3,7 +3,7 @@ package com.appreators.game.barrelball.model;
 import com.appreators.game.barrelball.model.supers.Circle;
 
 public class Barrel extends Circle{
-
+	// 樽が乗っているレールの情報
 	float[] rail_position;
 	float rail_width;
 	float rail_height;
@@ -42,5 +42,6 @@ public class Barrel extends Circle{
 
 	@Override
 	public void move() {
+		
 	}
 }

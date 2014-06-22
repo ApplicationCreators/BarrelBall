@@ -12,7 +12,8 @@ public class GameController {
 		screen = new Screen();
 		Ball ball = new Ball(0, 0, 0.1f);
 		Barrel barrel = new Barrel(0.2f, 0.2f, 0.2f);
-		Rail rail = new Rail(-0.2f, -0.2f, 0.3f, 0.1f);
+		
+		Rail rail = new Rail(0.0f, -0.8f, 1.0f, 0.1f);
 		
 		screen.setBall(ball);
 		screen.addBarrel(barrel);
