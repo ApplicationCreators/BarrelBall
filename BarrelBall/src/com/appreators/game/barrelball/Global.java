@@ -6,6 +6,9 @@ import javax.microedition.khronos.opengles.GL10;
 
 public class Global {
 	
+	// TAG
+	public static String APP_TAG = "BarrelBall.";
+	
 	// MainActivity
 	public static BarrelBallActivity mainActivity;
 

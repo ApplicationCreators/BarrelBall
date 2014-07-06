@@ -36,9 +36,6 @@ public class BarrelBallRenderer implements GLSurfaceView.Renderer{
 	private int textureBackGround;
 	
 	private long start_time;
-	private boolean game_over_flag;
-	
-	private Handler mHandler = new Handler();
 	
 	public BarrelBallRenderer(BarrelBallActivity context) {
 		this.context = context;
@@ -48,7 +45,6 @@ public class BarrelBallRenderer implements GLSurfaceView.Renderer{
 	
 	public void startNewGame() {
 		this.start_time = System.currentTimeMillis();//開始時間を保持します
-		this.game_over_flag = false;//ゲームオーバー状態ではない
 		this.controller = new GameController();
 	}
 	
@@ -72,17 +68,8 @@ public class BarrelBallRenderer implements GLSurfaceView.Renderer{
 				barrel.draw(gl, textureBarrel);
 			gl.glDisable(GL10.GL_BLEND);
 
-			if(controller.judge() == -1)
-				context.gameOver();
-			
-			//Global.mainActivity.showRetryButton()をUIスレッドで実行する
-			mHandler.post(new Runnable(){
-				
-				@Override
-				public void run(){
-					Global.mainActivity.showRetryButton();
-				}
-			});
+			// 判定を行う
+			controller.judge();
 		}
 	}
 	
