@@ -8,6 +8,7 @@ import javax.microedition.khronos.opengles.GL10;
 
 import com.appreators.game.barrelball.BarrelBallActivity;
 import com.appreators.game.barrelball.Global;
+import com.appreators.game.barrelball.R;
 import com.appreators.game.barrelball.controller.GameController;
 import com.appreators.game.barrelball.model.Ball;
 import com.appreators.game.barrelball.model.Barrel;
@@ -16,16 +17,22 @@ import com.appreators.game.barrelball.model.Screen;
 import com.appreators.game.barrelball.utils.GraphicUtil;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.opengl.GLSurfaceView;
 import android.util.Log;
 
 public class BarrelBallRenderer implements GLSurfaceView.Renderer{
 	private BarrelBallActivity context;
-	
+	// 画面のサイズ
 	private int width;
 	private int height;
-	
+	// ゲームコントローラー
 	private GameController controller;
+	
+	// テクスチャ
+	private int textureBall;
+	private int textureBarrel;
+	private int textureBackGround;
 	
 	private long start_time;
 	private boolean game_over_flag;
@@ -50,40 +57,36 @@ public class BarrelBallRenderer implements GLSurfaceView.Renderer{
 			screen.move();
 			
 			//////////////////// 描画
+			gl.glEnable(GL10.GL_BLEND);
+			gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
 			// Ballの処理(BallがBarrelの裏にあることもあるので、Ballを先に描画する)
-			drawBall(gl,screen.getBall());
+			Ball ball = screen.getBall();
+			if(ball.isShot())
+				ball.draw(gl, textureBall);
 			// Barrelの処理
 			ArrayList<Barrel> barrels = screen.getBarrels();
 			for(Barrel barrel : barrels)
-				drawBarrel(gl,barrel);
+				barrel.draw(gl, textureBarrel);
+			gl.glDisable(GL10.GL_BLEND);
 
 			if(controller.judge() == -1)
 				context.gameOver();
 		}
 	}
-	public void drawBall(GL10 gl, Ball ball){
-		// ボールは発射されていない限り描画しない
-		if(ball.isShot())
-			GraphicUtil.drawCircle(gl, ball.getPosition()[0], ball.getPosition()[1], 60, ball.getRadius(), 1.0f, 1.0f, 0.0f, 1.0f);
-	}
-	public void drawBarrel(GL10 gl, Barrel barrel){
-		// Railを描画
-//		GraphicUtil.drawRectangle(gl, barrel.getRail_position()[0], barrel.getRail_position()[1], barrel.getRail_width(), barrel.getRail_height(), 1.0f, 0.0f, 1.0f, 1.0f);
-		// Barrelを描画
-		GraphicUtil.drawCircle(gl, barrel.getPosition()[0], barrel.getPosition()[1], 60, barrel.getRadius(), 0.0f, 1.0f, 1.0f, 1.0f);
-	}
 	
 	//テクスチャを読み込むメソッド
 	private void loadTextures(GL10 gl) {
-//		Resources res = mContext.getResources();
-//		this.mBgTexture = GraphicUtil.loadTexture(gl, res, R.drawable.circuit);
-//		if (mBgTexture == 0) {
-//			Log.e(getClass().toString(), "load texture error! circuit");
-//		}
-//		this.mTargetTexture = GraphicUtil.loadTexture(gl, res, R.drawable.fly);
-//		if (mTargetTexture == 0) {
-//			Log.e(getClass().toString(), "load texture error! fly");
-//		}
+		Resources res = context.getResources();
+		// 
+		this.textureBall = GraphicUtil.loadTexture(gl, res, R.drawable.ball);
+		if (textureBall == 0) {
+			Log.e(getClass().toString(), "load texture error! ball");
+		}
+		// 
+		this.textureBarrel = GraphicUtil.loadTexture(gl, res, R.drawable.barrel);
+		if (textureBarrel == 0) {
+			Log.e(getClass().toString(), "load texture error! fly");
+		}
 //		this.mNumberTexture = GraphicUtil.loadTexture(gl, res, R.drawable.number_texture);
 //		if (mNumberTexture == 0) {
 //			Log.e(getClass().toString(), "load texture error! number_texture");

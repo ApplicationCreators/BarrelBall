@@ -1,8 +1,11 @@
 package com.appreators.game.barrelball.model;
 
+import javax.microedition.khronos.opengles.GL10;
+
 import android.text.InputFilter.LengthFilter;
 
 import com.appreators.game.barrelball.model.supers.Circle;
+import com.appreators.game.barrelball.utils.GraphicUtil;
 
 public class Ball extends Circle{
 	private boolean isShot;
@@ -42,5 +45,17 @@ public class Ball extends Circle{
 			return -1;
 		else
 			return 0;
+	}
+	
+	//標的を描画します
+	public void draw(GL10 gl, int texture) {
+		gl.glPushMatrix();
+		{
+			gl.glTranslatef(position[0], position[1], 0.0f);
+//			gl.glRotatef(mAngle, 0.0f, 0.0f, 1.0f);
+//			gl.glScalef(mSize, mSize, 1.0f);
+			GraphicUtil.drawTexture(gl, 0.0f, 0.0f, radius*2.0f, radius*2.0f, texture, 1.0f, 1.0f, 1.0f, 1.0f);
+		}
+		gl.glPopMatrix();
 	}
 }

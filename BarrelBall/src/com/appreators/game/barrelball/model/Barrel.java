@@ -1,7 +1,10 @@
 package com.appreators.game.barrelball.model;
 
+import javax.microedition.khronos.opengles.GL10;
+
 import com.appreators.game.barrelball.Global;
 import com.appreators.game.barrelball.model.supers.Circle;
+import com.appreators.game.barrelball.utils.GraphicUtil;
 
 public class Barrel extends Circle{
 	// 定数
@@ -77,5 +80,17 @@ public class Barrel extends Circle{
 			rail_position[1] = next_position_y;
 			speed[1] = 0;
 		}
+	}
+	
+	//標的を描画します
+	public void draw(GL10 gl, int texture) {
+		gl.glPushMatrix();
+		{
+			gl.glTranslatef(position[0], position[1], 0.0f);
+//			gl.glRotatef(mAngle, 0.0f, 0.0f, 1.0f);
+//			gl.glScalef(mSize, mSize, 1.0f);
+			GraphicUtil.drawTexture(gl, 0.0f, 0.0f, radius*2.0f, radius*2.0f, texture, 1.0f, 1.0f, 1.0f, 1.0f);
+		}
+		gl.glPopMatrix();
 	}
 }

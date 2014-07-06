@@ -2,14 +2,18 @@ package com.appreators.game.barrelball;
 
 import com.appreators.game.barrelball.view.BarrelBallRenderer;
 import com.appreators.game.barrelball.view.BarrelBallView;
+
 import android.app.Activity;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.media.AudioManager;
 import android.os.Bundle;
+import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.LinearLayout;
 
 public class BarrelBallActivity extends Activity {
 	
@@ -36,12 +40,17 @@ public class BarrelBallActivity extends Activity {
 		
 		//インスタンスを保持させる
 		Global.mainActivity = this;
+
 		
 		this.renderer = new BarrelBallRenderer(this);
 		glSurfaceView = new BarrelBallView(this);// MyGLSurfaceViewの生成
 		glSurfaceView.setRenderer(renderer);
 		
-		setContentView(glSurfaceView);
+		setContentView(R.layout.activity_barrel_ball);
+		LinearLayout mainLayout = (LinearLayout) findViewById(R.id.mainlayout);
+		mainLayout.addView(glSurfaceView);
+		
+//		setContentView(glSurfaceView);
     }
     
     @Override
@@ -58,5 +67,9 @@ public class BarrelBallActivity extends Activity {
     
     public void gameOver(){
     	onPause();
+    }
+    
+    public void addPoint(){
+    	
     }
 }

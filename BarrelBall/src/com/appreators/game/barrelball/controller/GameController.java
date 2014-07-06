@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 
 
+
+import com.appreators.game.barrelball.BarrelBallActivity;
 import com.appreators.game.barrelball.Global;
 import com.appreators.game.barrelball.model.Ball;
 import com.appreators.game.barrelball.model.Barrel;
@@ -13,6 +15,8 @@ import com.appreators.game.barrelball.model.Screen;
 public class GameController {
 	public static float LENGTH_BETWEEN_RAILS = 1.0f;
 	public static float BOTTOM_RAIL_Y = -1.0f;
+	
+	private BarrelBallActivity context;
 
 	private Screen screen;
 	
