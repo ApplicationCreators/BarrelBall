@@ -17,6 +17,7 @@ import com.appreators.game.barrelball.utils.GraphicUtil;
 
 import android.content.Context;
 import android.opengl.GLSurfaceView;
+import android.os.Handler;
 import android.util.Log;
 
 public class BarrelBallRenderer implements GLSurfaceView.Renderer{
@@ -29,6 +30,8 @@ public class BarrelBallRenderer implements GLSurfaceView.Renderer{
 	
 	private long start_time;
 	private boolean game_over_flag;
+	
+	private Handler mHandler = new Handler();
 	
 	public BarrelBallRenderer(BarrelBallActivity context) {
 		this.context = context;
@@ -59,6 +62,15 @@ public class BarrelBallRenderer implements GLSurfaceView.Renderer{
 
 			if(controller.judge() == -1)
 				context.gameOver();
+			
+			//Global.mainActivity.showRetryButton()をUIスレッドで実行する
+			mHandler.post(new Runnable(){
+				
+				@Override
+				public void run(){
+					Global.mainActivity.showRetryButton();
+				}
+			});
 		}
 	}
 	public void drawBall(GL10 gl, Ball ball){
