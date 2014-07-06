@@ -45,14 +45,15 @@ public class Screen {
 			int judge = ball.judge(barrels.get(1));
 			if(judge == 1){
 				ball.setShot(false);
+				return 1;
 			}
 			else if (judge == -1){
 				return -1;
 			}
-			return 1;
+			return 0;
 		}
 		else{
-			return 1;
+			return 0;
 		}
 	}
 

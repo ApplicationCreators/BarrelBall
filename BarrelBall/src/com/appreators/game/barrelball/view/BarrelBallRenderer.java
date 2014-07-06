@@ -42,16 +42,16 @@ public class BarrelBallRenderer implements GLSurfaceView.Renderer{
 
 	//Particle
 	public static final int PARTICLE_COUNT = 100;//パーティ来る100個生成
-	private Context mContext;
-	private int mWidth;
-	private int mHeight;
-	private Particle[] mParticles = new Particle[PARTICLE_COUNT];
+	private Particle[] mParticles;
 	private int mParticleTexture;
 	
-	public BarrelBallRenderer(Context context){
-		this.mContext = context;
-		
-		//パーティクルをランダムな位置に生成する
+	private Handler mHandler = new Handler();
+	
+	public BarrelBallRenderer(BarrelBallActivity context) {
+		this.context = context;
+//		this.mParticleSystem = new ParticleSystem(300, 30);//生成します
+		//パーティクルをランダムな位置に生成する		
+		mParticles = new Particle[PARTICLE_COUNT];
 		Random rand = Global.rand;
 		Particle[] particles = mParticles;
 		for(int i = 0; i < PARTICLE_COUNT;i++){
@@ -60,13 +60,6 @@ public class BarrelBallRenderer implements GLSurfaceView.Renderer{
 			particles[i].mY = rand.nextFloat() - 0.5f;
 			particles[i].mSize = rand.nextFloat() * 0.5f;
 		}
-	}
-	
-	private Handler mHandler = new Handler();
-	
-	public BarrelBallRenderer(BarrelBallActivity context) {
-		this.context = context;
-//		this.mParticleSystem = new ParticleSystem(300, 30);//生成します
 		startNewGame();
 	}
 	
@@ -86,6 +79,7 @@ public class BarrelBallRenderer implements GLSurfaceView.Renderer{
 			//////////////////// 描画
 			gl.glEnable(GL10.GL_BLEND);
 			gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
+			gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE);
 			// Ballの処理(BallがBarrelの裏にあることもあるので、Ballを先に描画する)
 			Ball ball = screen.getBall();
 			if(ball.isShot())
@@ -94,22 +88,8 @@ public class BarrelBallRenderer implements GLSurfaceView.Renderer{
 			ArrayList<Barrel> barrels = screen.getBarrels();
 			for(Barrel barrel : barrels)
 				barrel.draw(gl, textureBarrel);
-			gl.glDisable(GL10.GL_BLEND);
 
-			if(controller.judge() == -1)
-				context.gameOver();
-			
-			//Global.mainActivity.showRetryButton()をUIスレッドで実行する
-			mHandler.post(new Runnable(){
-				
-				@Override
-				public void run(){
-					Global.mainActivity.showRetryButton();
-				}
-			});
-			
-			//パーティクルをすべて描画する
-			gl.glEnable(GL10.GL_BLEND);
+			// パーティクルを描画する
 			gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE);
 			Random rand = Global.rand;
 			Particle[] particles = mParticles;
@@ -123,7 +103,11 @@ public class BarrelBallRenderer implements GLSurfaceView.Renderer{
 				}
 				particles[i].draw(gl, texture);	
 			}
+			
 			gl.glDisable(GL10.GL_BLEND);
+
+			// 判定を行う
+			controller.judge();
 		}
 	}
 	
@@ -168,8 +152,7 @@ public class BarrelBallRenderer implements GLSurfaceView.Renderer{
 		
 		//テクスチャをロードする
 		loadTextures(gl);
-		this.mParticleTexture = GraphicUtil.loadTexture(gl, mContext.getResources(), R.drawable.particle);
-		
+		this.mParticleTexture = GraphicUtil.loadTexture(gl, context.getResources(), R.drawable.burst);
 	}
 
 	@Override
