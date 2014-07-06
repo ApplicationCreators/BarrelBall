@@ -6,6 +6,7 @@ import java.util.Random;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
+import com.appreators.game.barrelball.BarrelBallActivity;
 import com.appreators.game.barrelball.Global;
 import com.appreators.game.barrelball.controller.GameController;
 import com.appreators.game.barrelball.model.Ball;
@@ -19,7 +20,7 @@ import android.opengl.GLSurfaceView;
 import android.util.Log;
 
 public class BarrelBallRenderer implements GLSurfaceView.Renderer{
-	private Context context;
+	private BarrelBallActivity context;
 	
 	private int width;
 	private int height;
@@ -29,7 +30,7 @@ public class BarrelBallRenderer implements GLSurfaceView.Renderer{
 	private long start_time;
 	private boolean game_over_flag;
 	
-	public BarrelBallRenderer(Context context) {
+	public BarrelBallRenderer(BarrelBallActivity context) {
 		this.context = context;
 //		this.mParticleSystem = new ParticleSystem(300, 30);//生成します
 		startNewGame();
@@ -44,29 +45,32 @@ public class BarrelBallRenderer implements GLSurfaceView.Renderer{
 	//描画を行う部分を記述するメソッドを追加する
 	public void renderMain(GL10 gl) {
 		Screen screen = controller.getScreen();
-		//////////////////// 次の位置へ移動
-		screen.move();
-		
-		//////////////////// 描画
-		// Ballの処理(BallがBarrelの裏にあることもあるので、Ballを先に描画する)
-		drawBall(gl,screen.getBall());
-		// Barrelの処理
-		ArrayList<Barrel> barrels = screen.getBarrels();
-		for(Barrel barrel : barrels)
-			drawBarrel(gl,barrel);
-		// Railの処理
-		ArrayList<Rail> rails = screen.getRails();
-		for(Rail rail : rails)
-			drawRail(gl,rail);
+		synchronized (controller) {
+			//////////////////// 次の位置へ移動
+			screen.move();
+			
+			//////////////////// 描画
+			// Ballの処理(BallがBarrelの裏にあることもあるので、Ballを先に描画する)
+			drawBall(gl,screen.getBall());
+			// Barrelの処理
+			ArrayList<Barrel> barrels = screen.getBarrels();
+			for(Barrel barrel : barrels)
+				drawBarrel(gl,barrel);
+
+			if(controller.judge() == -1)
+				context.gameOver();
+		}
 	}
 	public void drawBall(GL10 gl, Ball ball){
-		GraphicUtil.drawCircle(gl, ball.getPosition()[0], ball.getPosition()[1], 60, ball.getRadius(), 1.0f, 1.0f, 0.0f, 1.0f);
+		// ボールは発射されていない限り描画しない
+		if(ball.isShot())
+			GraphicUtil.drawCircle(gl, ball.getPosition()[0], ball.getPosition()[1], 60, ball.getRadius(), 1.0f, 1.0f, 0.0f, 1.0f);
 	}
 	public void drawBarrel(GL10 gl, Barrel barrel){
+		// Railを描画
+//		GraphicUtil.drawRectangle(gl, barrel.getRail_position()[0], barrel.getRail_position()[1], barrel.getRail_width(), barrel.getRail_height(), 1.0f, 0.0f, 1.0f, 1.0f);
+		// Barrelを描画
 		GraphicUtil.drawCircle(gl, barrel.getPosition()[0], barrel.getPosition()[1], 60, barrel.getRadius(), 0.0f, 1.0f, 1.0f, 1.0f);
-	}
-	public void drawRail(GL10 gl, Rail rail){
-		GraphicUtil.drawRectangle(gl, rail.getPosition()[0], rail.getPosition()[1], rail.getWidth(), rail.getHeight(), 1.0f, 0.0f, 1.0f, 1.0f);
 	}
 	
 	//テクスチャを読み込むメソッド
@@ -128,5 +132,8 @@ public class BarrelBallRenderer implements GLSurfaceView.Renderer{
 	//画面がタッチされたときに呼ばれるメソッド
 	public void touched(float x, float y){
 		Log.d("BarrelBallRender", "x : "+x+", y : "+y);
+		synchronized (controller) {
+			controller.shot();
+		}
 	}
 }

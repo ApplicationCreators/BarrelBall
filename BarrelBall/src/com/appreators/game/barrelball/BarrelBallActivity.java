@@ -55,4 +55,8 @@ public class BarrelBallActivity extends Activity {
         super.onResume();
         glSurfaceView.onResume();
     }
+    
+    public void gameOver(){
+    	onPause();
+    }
 }
