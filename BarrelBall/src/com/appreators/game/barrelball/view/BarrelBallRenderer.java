@@ -96,17 +96,8 @@ public class BarrelBallRenderer implements GLSurfaceView.Renderer{
 				barrel.draw(gl, textureBarrel);
 			gl.glDisable(GL10.GL_BLEND);
 
-			if(controller.judge() == -1)
-				context.gameOver();
-			
-			//Global.mainActivity.showRetryButton()をUIスレッドで実行する
-			mHandler.post(new Runnable(){
-				
-				@Override
-				public void run(){
-					Global.mainActivity.showRetryButton();
-				}
-			});
+			// 判定を行う
+			controller.judge();
 			
 			//パーティクルをすべて描画する
 			gl.glEnable(GL10.GL_BLEND);
