@@ -15,6 +15,7 @@ import com.appreators.game.barrelball.model.Barrel;
 import com.appreators.game.barrelball.model.Rail;
 import com.appreators.game.barrelball.model.Screen;
 import com.appreators.game.barrelball.utils.GraphicUtil;
+import com.appreators.game.barrelball.utils.Particle;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -37,6 +38,29 @@ public class BarrelBallRenderer implements GLSurfaceView.Renderer{
 	
 	private long start_time;
 	private boolean game_over_flag;
+	
+
+	//Particle
+	public static final int PARTICLE_COUNT = 100;//パーティ来る100個生成
+	private Context mContext;
+	private int mWidth;
+	private int mHeight;
+	private Particle[] mParticles = new Particle[PARTICLE_COUNT];
+	private int mParticleTexture;
+	
+	public BarrelBallRenderer(Context context){
+		this.mContext = context;
+		
+		//パーティクルをランダムな位置に生成する
+		Random rand = Global.rand;
+		Particle[] particles = mParticles;
+		for(int i = 0; i < PARTICLE_COUNT;i++){
+			particles[i] = new Particle();
+			particles[i].mX = rand.nextFloat() - 0.5f;
+			particles[i].mY = rand.nextFloat() - 0.5f;
+			particles[i].mSize = rand.nextFloat() * 0.5f;
+		}
+	}
 	
 	private Handler mHandler = new Handler();
 	
@@ -83,6 +107,23 @@ public class BarrelBallRenderer implements GLSurfaceView.Renderer{
 					Global.mainActivity.showRetryButton();
 				}
 			});
+			
+			//パーティクルをすべて描画する
+			gl.glEnable(GL10.GL_BLEND);
+			gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE);
+			Random rand = Global.rand;
+			Particle[] particles = mParticles;
+			int texture = mParticleTexture;
+			for(int i = 0; i < PARTICLE_COUNT; i++){
+				if(!particles[i].mIsActive){
+					particles[i].mX = rand.nextFloat() - 0.5f;
+					particles[i].mY = rand.nextFloat() - 0.5f;
+					particles[i].mSize = rand.nextFloat() - 0.5f;
+					break;
+				}
+				particles[i].draw(gl, texture);	
+			}
+			gl.glDisable(GL10.GL_BLEND);
 		}
 	}
 	
@@ -127,6 +168,8 @@ public class BarrelBallRenderer implements GLSurfaceView.Renderer{
 		
 		//テクスチャをロードする
 		loadTextures(gl);
+		this.mParticleTexture = GraphicUtil.loadTexture(gl, mContext.getResources(), R.drawable.particle);
+		
 	}
 
 	@Override
