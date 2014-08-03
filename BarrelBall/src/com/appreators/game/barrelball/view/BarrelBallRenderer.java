@@ -201,6 +201,7 @@ public class BarrelBallRenderer implements GLSurfaceView.Renderer{
 	
 	// 背景を変更する
 	public void changeBG(int index){
-		textureBackGround = texture_bgs[index];
+		if(texture_bgs != null)
+			textureBackGround = texture_bgs[index];
 	}
 }
