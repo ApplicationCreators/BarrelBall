@@ -16,6 +16,7 @@ import com.appreators.game.barrelball.model.Rail;
 import com.appreators.game.barrelball.model.Screen;
 import com.appreators.game.barrelball.utils.GraphicUtil;
 import com.appreators.game.barrelball.utils.Particle;
+import com.appreators.game.barrelball.utils.ParticleSystem;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -41,25 +42,14 @@ public class BarrelBallRenderer implements GLSurfaceView.Renderer{
 	
 
 	//Particle
-	public static final int PARTICLE_COUNT = 100;//パーティ来る100個生成
-	private Particle[] mParticles;
-	private int mParticleTexture;
+	private ParticleSystem particleSystem;
+	private int textureParticle;
 	
 	private Handler mHandler = new Handler();
 	
 	public BarrelBallRenderer(BarrelBallActivity context) {
 		this.context = context;
 //		this.mParticleSystem = new ParticleSystem(300, 30);//生成します
-		//パーティクルをランダムな位置に生成する		
-		mParticles = new Particle[PARTICLE_COUNT];
-		Random rand = Global.rand;
-		Particle[] particles = mParticles;
-		for(int i = 0; i < PARTICLE_COUNT;i++){
-			particles[i] = new Particle();
-			particles[i].mX = rand.nextFloat() - 0.5f;
-			particles[i].mY = rand.nextFloat() - 0.5f;
-			particles[i].mSize = rand.nextFloat() * 0.5f;
-		}
 		startNewGame();
 	}
 	
@@ -67,6 +57,7 @@ public class BarrelBallRenderer implements GLSurfaceView.Renderer{
 		this.start_time = System.currentTimeMillis();//開始時間を保持します
 		this.game_over_flag = false;//ゲームオーバー状態ではない
 		this.controller = new GameController();
+		this.particleSystem = new ParticleSystem(100, 30);
 	}
 	
 	//描画を行う部分を記述するメソッドを追加する
@@ -81,32 +72,33 @@ public class BarrelBallRenderer implements GLSurfaceView.Renderer{
 			gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
 			// Ballの処理(BallがBarrelの裏にあることもあるので、Ballを先に描画する)
 			Ball ball = screen.getBall();
-			if(ball.isShot())
+			if(ball.isShot() && !game_over_flag)
 				ball.draw(gl, textureBall);
 			// Barrelの処理
 			ArrayList<Barrel> barrels = screen.getBarrels();
 			for(Barrel barrel : barrels)
 				barrel.draw(gl, textureBarrel);
-
-			// パーティクルを描画する
-//			gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE);
-			Random rand = Global.rand;
-			Particle[] particles = mParticles;
-			int texture = mParticleTexture;
-			for(int i = 0; i < PARTICLE_COUNT; i++){
-				if(!particles[i].mIsActive){
-					particles[i].mX = rand.nextFloat() - 0.5f;
-					particles[i].mY = rand.nextFloat() - 0.5f;
-					particles[i].mSize = rand.nextFloat() - 0.5f;
-					break;
+			gl.glDisable(GL10.GL_BLEND);
+			
+			// 判定を行う
+			if(controller.judge() == -1){
+				// ゲームオーバーフラグを建てる
+				game_over_flag = true;
+				// パーティクルを放出する
+				Random rand = Global.rand;
+				for(int j=0;j<40;j++){
+					float move_x = (rand.nextFloat() - 0.5f) * 0.05f;
+					float move_y = (rand.nextFloat() - 0.5f) * 0.05f;
+					particleSystem.add(ball.getPosition()[0], ball.getPosition()[1], 0.2f, move_x, move_y);
 				}
-				particles[i].draw(gl, texture);	
 			}
 			
+			// パーティクルを描画する
+			gl.glEnable(GL10.GL_BLEND);
+			gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE);
+			particleSystem.update();
+			particleSystem.draw(gl, textureParticle);
 			gl.glDisable(GL10.GL_BLEND);
-
-			// 判定を行う
-			controller.judge();
 		}
 	}
 	
@@ -123,6 +115,11 @@ public class BarrelBallRenderer implements GLSurfaceView.Renderer{
 		if (textureBarrel == 0) {
 			Log.e(getClass().toString(), "load texture error! fly");
 		}
+		this.textureParticle = GraphicUtil.loadTexture(gl, res, R.drawable.burst);
+		if (textureParticle == 0){
+			Log.e(getClass().toString(), "load texture error! burst");
+		}
+		
 //		this.mNumberTexture = GraphicUtil.loadTexture(gl, res, R.drawable.number_texture);
 //		if (mNumberTexture == 0) {
 //			Log.e(getClass().toString(), "load texture error! number_texture");
@@ -151,7 +148,7 @@ public class BarrelBallRenderer implements GLSurfaceView.Renderer{
 		
 		//テクスチャをロードする
 		loadTextures(gl);
-		this.mParticleTexture = GraphicUtil.loadTexture(gl, context.getResources(), R.drawable.burst);
+		this.textureParticle = GraphicUtil.loadTexture(gl, context.getResources(), R.drawable.burst);
 	}
 
 	@Override

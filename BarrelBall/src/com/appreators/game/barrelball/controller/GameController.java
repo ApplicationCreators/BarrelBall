@@ -88,7 +88,10 @@ public class GameController {
 		}
 	}
 	
-	/** 死亡判定する */
+	/** 死亡判定する <br>
+	 *  1 : ポイント加算<br>
+	 *  -1 : GameOver
+	 */
 	public int judge(){
 		int judge = screen.judge();
 		if(judge == -1){	// GameOver
