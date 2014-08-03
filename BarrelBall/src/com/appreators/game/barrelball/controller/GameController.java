@@ -13,7 +13,7 @@ import com.appreators.game.barrelball.model.Screen;
 
 public class GameController {
 	/** BGMが変わるまでに超えなければならない数 */
-	public static int BGM_CHANGE_LENGTH = 10;
+	public static int BGM_CHANGE_LENGTH = 2;
 	/** BGM */
 	public static int[] BGMs = {R.raw.sound2,R.raw.sound3,R.raw.sound4,R.raw.sound5};
 	public static float LENGTH_BETWEEN_RAILS = 1.0f;
@@ -27,6 +27,8 @@ public class GameController {
 	
 	private int point;
 	private int current_bgm_zone;
+	
+	private boolean game_over_flag;
 	
 	public GameController() {
 		screen = new Screen();
@@ -54,6 +56,7 @@ public class GameController {
 	public void reset(){
 		point = 0;
 		current_bgm_zone = 0;
+		game_over_flag = false;
 		handler.post(new Runnable(){
 			@Override
 			public void run(){
@@ -61,6 +64,7 @@ public class GameController {
 				Global.mainActivity.setBGM(BGMs[0]);
 				Global.mainActivity.startBGM();
 				Global.mainActivity.startGame();
+				Global.mainActivity.changeBG(0);
 			}
 		});
 	}
@@ -101,8 +105,11 @@ public class GameController {
 				public void run(){
 					Global.mainActivity.setBestRecord(point);
 					Global.mainActivity.gameOver();
+					if(!game_over_flag)
+						Global.mainActivity.startSE(BarrelBallActivity.SE_GAME_OVER);
 				}
-			});			
+			});
+			game_over_flag = true;
 		}
 		else if(judge == 1){	// ポイント加算
 			point++;
@@ -117,6 +124,7 @@ public class GameController {
 						current_bgm_zone++;
 						Global.mainActivity.setBGM(BGMs[current_bgm_zone]);
 						Global.mainActivity.startBGM();
+						Global.mainActivity.changeBG(current_bgm_zone);
 					}
 				}
 			});

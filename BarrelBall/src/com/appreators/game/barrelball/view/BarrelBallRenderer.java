@@ -18,6 +18,7 @@ import com.appreators.game.barrelball.utils.GraphicUtil;
 import com.appreators.game.barrelball.utils.Particle;
 import com.appreators.game.barrelball.utils.ParticleSystem;
 
+import android.R.integer;
 import android.content.Context;
 import android.content.res.Resources;
 import android.opengl.GLSurfaceView;
@@ -36,6 +37,8 @@ public class BarrelBallRenderer implements GLSurfaceView.Renderer{
 	private int textureBall;
 	private int textureBarrel;
 	private int textureBackGround;
+	
+	private int[] texture_bgs;
 	
 	private long start_time;
 	private boolean game_over_flag;
@@ -70,6 +73,8 @@ public class BarrelBallRenderer implements GLSurfaceView.Renderer{
 			//////////////////// 描画
 			gl.glEnable(GL10.GL_BLEND);
 			gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
+			// 背景を描画する
+			GraphicUtil.drawTexture(gl, 0.0f, 0.0f, 2.0f, 3.0f, textureBackGround, 1.0f, 1.0f, 1.0f, 1.0f);
 			// Ballの処理(BallがBarrelの裏にあることもあるので、Ballを先に描画する)
 			Ball ball = screen.getBall();
 			if(ball.isShot() && !game_over_flag)
@@ -120,7 +125,27 @@ public class BarrelBallRenderer implements GLSurfaceView.Renderer{
 			Log.e(getClass().toString(), "load texture error! burst");
 		}
 		
-//		this.mNumberTexture = GraphicUtil.loadTexture(gl, res, R.drawable.number_texture);
+		// バックグラウンドの処理
+		this.texture_bgs = new int[4];
+		this.texture_bgs[0] = GraphicUtil.loadTexture(gl, res, R.drawable.stage1);
+		if (this.texture_bgs[0] == 0){
+			Log.e(getClass().toString(), "load texture error! texture_bgs[0]");
+		}
+		this.texture_bgs[1] = GraphicUtil.loadTexture(gl, res, R.drawable.stage2);
+		if (this.texture_bgs[1] == 0){
+			Log.e(getClass().toString(), "load texture error! texture_bgs[1]");
+		}
+		this.texture_bgs[2] = GraphicUtil.loadTexture(gl, res, R.drawable.stage3);
+		if (this.texture_bgs[2] == 0){
+			Log.e(getClass().toString(), "load texture error! texture_bgs[2]");
+		}
+		this.texture_bgs[3] = GraphicUtil.loadTexture(gl, res, R.drawable.stage4);
+		if (this.texture_bgs[3] == 0){
+			Log.e(getClass().toString(), "load texture error! texture_bgs[3]");
+		}
+		this.textureBackGround = this.texture_bgs[0];
+		
+		//		this.mNumberTexture = GraphicUtil.loadTexture(gl, res, R.drawable.number_texture);
 //		if (mNumberTexture == 0) {
 //			Log.e(getClass().toString(), "load texture error! number_texture");
 //		}
@@ -172,5 +197,10 @@ public class BarrelBallRenderer implements GLSurfaceView.Renderer{
 		synchronized (controller) {
 			controller.shot();
 		}
+	}
+	
+	// 背景を変更する
+	public void changeBG(int index){
+		textureBackGround = texture_bgs[index];
 	}
 }

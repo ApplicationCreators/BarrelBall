@@ -27,6 +27,7 @@ public class BarrelBallActivity extends Activity {
 	public static final String TAG = Global.APP_TAG+"BarrelBallActivity";
 	public static final String BEST_RECORD_KEY = "com.appreators.game.barrelball.BarrelBallActivity.best_record";
 	public static final int SE_BURST = 0;
+	public static final int SE_GAME_OVER = 1;
 	
 	BarrelBallView glSurfaceView;
 	BarrelBallRenderer renderer;
@@ -50,6 +51,7 @@ public class BarrelBallActivity extends Activity {
 		player = new BGMPlayer(this, R.raw.sound1);
 		se_player = new SEPlayer(this);
 		se_player.registerSE(R.raw.burst);
+		se_player.registerSE(R.raw.game_over);
 		
 		// ベストレコードの取得
 		SharedPreferences prefs = getPreferences(MODE_PRIVATE);
@@ -88,6 +90,7 @@ public class BarrelBallActivity extends Activity {
 		//ボタンの作成
 		this.mRetryButton = new Button(this);
 		this.mRetryButton.setText("Retry");
+		this.mRetryButton.setBackgroundResource(R.drawable.button_corners);
 		hideRetryButton();
 		addContentView(mRetryButton, params);
 		//イベントの追加
@@ -161,5 +164,9 @@ public class BarrelBallActivity extends Activity {
 	}
 	public void startSE(int index){
 		se_player.play(index);
+	}
+	// 背景の変更
+	public void changeBG(int index){
+		renderer.changeBG(index);
 	}
 }
