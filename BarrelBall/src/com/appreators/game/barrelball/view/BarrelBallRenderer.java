@@ -79,7 +79,6 @@ public class BarrelBallRenderer implements GLSurfaceView.Renderer{
 			//////////////////// 描画
 			gl.glEnable(GL10.GL_BLEND);
 			gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
-			gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE);
 			// Ballの処理(BallがBarrelの裏にあることもあるので、Ballを先に描画する)
 			Ball ball = screen.getBall();
 			if(ball.isShot())
@@ -90,7 +89,7 @@ public class BarrelBallRenderer implements GLSurfaceView.Renderer{
 				barrel.draw(gl, textureBarrel);
 
 			// パーティクルを描画する
-			gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE);
+//			gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE);
 			Random rand = Global.rand;
 			Particle[] particles = mParticles;
 			int texture = mParticleTexture;
