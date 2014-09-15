@@ -23,7 +23,7 @@
                 android:layout_height="wrap_content"
                 android:padding="10dp"
                 android:text="0"
-                android:textSize="40sp" />
+                android:textSize="@dimen/font_size_L" />
 
             <TextView
                 android:id="@+id/best_record_label"
@@ -31,7 +31,7 @@
                 android:layout_height="wrap_content"
                 android:padding="10dp"
                 android:text="Best Record:"
-                android:textSize="@dimen/big_font" />
+                android:textSize="@dimen/font_size_L" />
 
             <TextView
                 android:id="@+id/best_record"
@@ -39,8 +39,9 @@
                 android:layout_height="wrap_content"
                 android:padding="10dp"
                 android:text="0"
-                android:textSize="40sp" />
+                android:textSize="@dimen/font_size_L" />
         </LinearLayout>
+
     </LinearLayout>
 
 </FrameLayout>

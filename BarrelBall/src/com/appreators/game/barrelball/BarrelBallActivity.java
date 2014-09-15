@@ -6,21 +6,26 @@ import com.appreators.game.barrelball.view.BarrelBallRenderer;
 import com.appreators.game.barrelball.view.BarrelBallView;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.media.AudioManager;
 import android.os.Bundle;
+import android.text.Layout;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Gravity;
+import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 public class BarrelBallActivity extends Activity {
@@ -32,7 +37,8 @@ public class BarrelBallActivity extends Activity {
 	BarrelBallView glSurfaceView;
 	BarrelBallRenderer renderer;
 	
-	private Button mRetryButton;		// リトライボタン
+	private PopupWindow popupWindow;
+	private View popupView;		// リトライボタン
 	private TextView pointTextView;		// ポイントのビュー
 	private TextView best_record_view;	// ベストレコードのビュー
 	private BGMPlayer player;
@@ -81,22 +87,19 @@ public class BarrelBallActivity extends Activity {
 		// ベストレコード
 		best_record_view = (TextView) findViewById(R.id.best_record);
 		best_record_view.setText(String.valueOf(best_record));
-
-		//ボタンのレイアウト
-		FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
-				LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-		params.gravity = Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL;
-		params.setMargins(0, 150, 0, 0);
-		//ボタンの作成
-		this.mRetryButton = new Button(this);
-		this.mRetryButton.setText("Retry");
-		this.mRetryButton.setBackgroundResource(R.drawable.button_corners);
-		hideRetryButton();
-		addContentView(mRetryButton, params);
-		//イベントの追加
-		this.mRetryButton.setOnClickListener(new Button.OnClickListener(){
+		
+		////// ポップアップの表示
+		// LayoutInflaterインスタンスを取得
+		LayoutInflater inflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		this.popupView = inflater.inflate(R.layout.popup, null);
+		// viewに紐づけたPopupWindowインスタンスを生成
+//		popupWindow = new PopupWindow(popupView, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+		popupWindow = new PopupWindow(popupView, LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+		
+		Button retryButton = (Button)popupView.findViewById(R.id.retry_button);
+		retryButton.setOnClickListener(new View.OnClickListener() {
 			@Override
-			public void onClick(View v){
+			public void onClick(View v) {
 				hideRetryButton();
 				renderer.startNewGame();
 			}
@@ -106,11 +109,12 @@ public class BarrelBallActivity extends Activity {
 	//リトライボタンを表示する
 	public void showRetryButton(){
 		Log.d(TAG, "showRetryButton");
-		mRetryButton.setVisibility(View.VISIBLE);    	
+		popupWindow.showAtLocation(glSurfaceView, Gravity.CENTER, 0, 0);
 	}
 	//リトライボタンを非表示にする
 	public void hideRetryButton(){
-		mRetryButton.setVisibility(View.GONE);
+		Log.d(TAG, "hideRetryButton");
+		popupWindow.dismiss();
 	}
 
 	@Override

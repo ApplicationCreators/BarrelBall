@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="alpha">#000000ff</color>
+    <color name="dimgray">#696969</color>
+    <color name="gray">#808080</color>
+    <color name="darkgray">#a9a9a9</color>
+    <color name="silver">#c0c0c0</color>
+    <color name="lightgray">#d3d3d3</color>
+    <color name="gainsboro">#dcdcdc</color>
+    <color name="white">#ffffff</color>
+    
+    <color name="black">#000000</color>
+    <color name="blackalpha">#77000000</color>
+</resources>
