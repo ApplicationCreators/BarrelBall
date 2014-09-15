@@ -31,7 +31,7 @@
                 android:layout_height="wrap_content"
                 android:padding="10dp"
                 android:text="Best Record:"
-                android:textSize="40sp" />
+                android:textSize="@dimen/big_font" />
 
             <TextView
                 android:id="@+id/best_record"
