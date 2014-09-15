@@ -120,7 +120,7 @@ public class GameController {
 					Global.mainActivity.setPoint(point);
 					// current_bgm_zoneに次がある状態
 					// かつポイントが次の段階に入った時にはBGMを変更する
-					if(current_bgm_zone+1 < BGMs.length && point >= (current_bgm_zone+1)*BGM_CHANGE_LENGTH){
+					if(!game_over_flag && current_bgm_zone+1 < BGMs.length && point >= (current_bgm_zone+1)*BGM_CHANGE_LENGTH){
 						current_bgm_zone++;
 						Global.mainActivity.setBGM(BGMs[current_bgm_zone]);
 						Global.mainActivity.startBGM();

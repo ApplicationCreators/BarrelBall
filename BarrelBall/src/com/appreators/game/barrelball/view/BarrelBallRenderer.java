@@ -12,14 +12,10 @@ import com.appreators.game.barrelball.R;
 import com.appreators.game.barrelball.controller.GameController;
 import com.appreators.game.barrelball.model.Ball;
 import com.appreators.game.barrelball.model.Barrel;
-import com.appreators.game.barrelball.model.Rail;
 import com.appreators.game.barrelball.model.Screen;
 import com.appreators.game.barrelball.utils.GraphicUtil;
-import com.appreators.game.barrelball.utils.Particle;
 import com.appreators.game.barrelball.utils.ParticleSystem;
 
-import android.R.integer;
-import android.content.Context;
 import android.content.res.Resources;
 import android.opengl.GLSurfaceView;
 import android.os.Handler;
@@ -37,6 +33,8 @@ public class BarrelBallRenderer implements GLSurfaceView.Renderer{
 	private int textureBall;
 	private int textureBarrel;
 	private int textureBackGround;
+	// 現在のバックグラウンドのインデックス
+	private int background_index;
 	
 	private int[] texture_bgs;
 	
@@ -61,6 +59,7 @@ public class BarrelBallRenderer implements GLSurfaceView.Renderer{
 		this.game_over_flag = false;//ゲームオーバー状態ではない
 		this.controller = new GameController();
 		this.particleSystem = new ParticleSystem(100, 30);
+		this.background_index = 0;
 	}
 	
 	//描画を行う部分を記述するメソッドを追加する
@@ -143,7 +142,7 @@ public class BarrelBallRenderer implements GLSurfaceView.Renderer{
 		if (this.texture_bgs[3] == 0){
 			Log.e(getClass().toString(), "load texture error! texture_bgs[3]");
 		}
-		this.textureBackGround = this.texture_bgs[0];
+		this.textureBackGround = this.texture_bgs[background_index];
 		
 		//		this.mNumberTexture = GraphicUtil.loadTexture(gl, res, R.drawable.number_texture);
 //		if (mNumberTexture == 0) {
@@ -201,7 +200,9 @@ public class BarrelBallRenderer implements GLSurfaceView.Renderer{
 	
 	// 背景を変更する
 	public void changeBG(int index){
-		if(texture_bgs != null)
+		if(texture_bgs != null){
 			textureBackGround = texture_bgs[index];
+			background_index = index;
+		}
 	}
 }
