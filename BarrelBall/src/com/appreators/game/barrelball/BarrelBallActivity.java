@@ -56,9 +56,6 @@ public class BarrelBallActivity extends Activity {
 
 		Global.mainActivity = this;						//インスタンスを保持させる
 		player = new BGMPlayer(this, R.raw.sound1);
-		se_player = new SEPlayer(this);
-		se_player.registerSE(R.raw.burst);
-		se_player.registerSE(R.raw.game_over);
 		
 		// ベストレコードの取得
 		SharedPreferences prefs = getPreferences(MODE_PRIVATE);
@@ -131,6 +128,7 @@ public class BarrelBallActivity extends Activity {
 		super.onPause();
 		glSurfaceView.onPause();
 		player.stop();
+		se_player.release();
 	}
 
 	@Override
@@ -138,6 +136,9 @@ public class BarrelBallActivity extends Activity {
 		super.onResume();
 		glSurfaceView.onResume();
 		player.start();
+		se_player = new SEPlayer(this);
+		se_player.registerSE(R.raw.burst);
+		se_player.registerSE(R.raw.game_over);
 	}
 	
 	public void setBestRecord(int point){
