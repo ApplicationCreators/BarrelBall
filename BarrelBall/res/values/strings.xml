@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <string name="app_name">BarrelBall</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_credit">CreditActivity</string>
-
+    <string name="credit">Credit</string>
+	<string name="copy_right">\u00A9 2014 Appreators</string>
+	<string name="credit_music">Music : 魔王魂</string>
+	<string name="credit_background_1">Back Ground : ぐったりにゃんこ</string>
+	<string name="credit_background_2">Back Ground : ペタン</string>
+	<string name="credit_background_3">Back Ground : youtubesign.com</string>
+	<string name="credit_barrel">Barrel Image : 木の素材フリーイラスト</string>
+	<string name="credit_ball">Earth Image: ビジネスピープル</string>
 </resources>

@@ -7,6 +7,7 @@ import com.appreators.game.barrelball.view.BarrelBallView;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
@@ -102,6 +103,14 @@ public class BarrelBallActivity extends Activity {
 			public void onClick(View v) {
 				hideRetryButton();
 				renderer.startNewGame();
+			}
+		});
+		Button creditButton = (Button)popupView.findViewById(R.id.credit_button);
+		creditButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(getApplicationContext(), CreditActivity.class);
+				startActivity(intent);
 			}
 		});
 	}

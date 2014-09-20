@@ -13,9 +13,11 @@ import com.appreators.game.barrelball.model.Screen;
 
 public class GameController {
 	/** BGMが変わるまでに超えなければならない数 */
-	public static int BGM_CHANGE_LENGTH = 2;
+	public static int BGM_CHANGE_LENGTH = 1;
+	/** STAGE数 */
+	public static int MAX_STAGES = 5;
 	/** BGM */
-	public static int[] BGMs = {R.raw.sound2,R.raw.sound3,R.raw.sound4,R.raw.sound5};
+	public static int[] BGMs = {R.raw.sound2,R.raw.sound3,R.raw.sound4,R.raw.sound5, R.raw.sound6};
 	public static float LENGTH_BETWEEN_RAILS = 1.0f;
 	public static float BOTTOM_RAIL_Y = -1.0f;
 	
@@ -120,7 +122,8 @@ public class GameController {
 					Global.mainActivity.setPoint(point);
 					// current_bgm_zoneに次がある状態
 					// かつポイントが次の段階に入った時にはBGMを変更する
-					if(!game_over_flag && current_bgm_zone+1 < BGMs.length && point >= (current_bgm_zone+1)*BGM_CHANGE_LENGTH){
+					if(!game_over_flag && current_bgm_zone+1 < BGMs.length && point >= (current_bgm_zone+1)*BGM_CHANGE_LENGTH
+							&& current_bgm_zone+1 < MAX_STAGES){
 						current_bgm_zone++;
 						Global.mainActivity.setBGM(BGMs[current_bgm_zone]);
 						Global.mainActivity.startBGM();
