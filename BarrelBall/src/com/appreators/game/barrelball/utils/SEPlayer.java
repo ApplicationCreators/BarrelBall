@@ -7,6 +7,11 @@ import android.media.AudioManager;
 import android.media.SoundPool;
 
 public class SEPlayer {
+	public static float EXTRA_LARGE = 1.0f;
+	public static float LARGE = 0.80f;
+	public static float NORMAL = 0.70f;
+	public static float SMALL = 0.60f;
+	public static float EXTRA_SMALL = 0.50f;
 	
 	private SoundPool mSoundPool;	// SoundPool
 	private Context context;
@@ -14,7 +19,7 @@ public class SEPlayer {
 	
 	public SEPlayer(Context context) {
 		// SoundPoolを生成
-		this.mSoundPool = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
+		this.mSoundPool = new SoundPool(2, AudioManager.STREAM_MUSIC, 0);
 		this.context = context;
 		this.se_sounds = new ArrayList<Integer>();
 	}
@@ -24,7 +29,7 @@ public class SEPlayer {
 		return se_sounds.size() - 1;
 	}
 	
-	public void play(int index){
-		mSoundPool.play(se_sounds.get(index), 1.0f, 1.0f, 1, 0, 1.0f);
+	public void play(int index, float volume){
+		mSoundPool.play(se_sounds.get(index), volume, volume, 1, 0, 1.0f);
 	}
 }

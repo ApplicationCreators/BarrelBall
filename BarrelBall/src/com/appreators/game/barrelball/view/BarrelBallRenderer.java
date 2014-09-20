@@ -125,7 +125,7 @@ public class BarrelBallRenderer implements GLSurfaceView.Renderer{
 		}
 		
 		// バックグラウンドの処理
-		this.texture_bgs = new int[4];
+		this.texture_bgs = new int[GameController.MAX_STAGES];
 		this.texture_bgs[0] = GraphicUtil.loadTexture(gl, res, R.drawable.stage1);
 		if (this.texture_bgs[0] == 0){
 			Log.e(getClass().toString(), "load texture error! texture_bgs[0]");
@@ -141,6 +141,10 @@ public class BarrelBallRenderer implements GLSurfaceView.Renderer{
 		this.texture_bgs[3] = GraphicUtil.loadTexture(gl, res, R.drawable.stage4);
 		if (this.texture_bgs[3] == 0){
 			Log.e(getClass().toString(), "load texture error! texture_bgs[3]");
+		}
+		this.texture_bgs[4] = GraphicUtil.loadTexture(gl, res, R.drawable.stage5);
+		if (this.texture_bgs[4] == 0){
+			Log.e(getClass().toString(), "load texture error! texture_bgs[4]");
 		}
 		this.textureBackGround = this.texture_bgs[background_index];
 		
