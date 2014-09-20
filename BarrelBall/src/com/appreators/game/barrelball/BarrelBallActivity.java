@@ -175,8 +175,8 @@ public class BarrelBallActivity extends Activity {
 	public void stopBGM(){
 		player.stop();
 	}
-	public void startSE(int index){
-		se_player.play(index);
+	public void startSE(int index, float volume){
+		se_player.play(index, volume);
 	}
 	// 背景の変更
 	public void changeBG(int index){

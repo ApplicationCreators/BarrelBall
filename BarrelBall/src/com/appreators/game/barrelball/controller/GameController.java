@@ -10,6 +10,7 @@ import com.appreators.game.barrelball.R;
 import com.appreators.game.barrelball.model.Ball;
 import com.appreators.game.barrelball.model.Barrel;
 import com.appreators.game.barrelball.model.Screen;
+import com.appreators.game.barrelball.utils.SEPlayer;
 
 public class GameController {
 	/** BGMが変わるまでに超えなければならない数 */
@@ -42,7 +43,6 @@ public class GameController {
 			screen.addBarrel(getNewBarrel(i-2.0f));
 		}
 	}
-	
 	// 新しいバレルを得る
 	public Barrel getNewBarrel(float position_y){
 		// -1 ~ 1のポジションを返す
@@ -88,7 +88,7 @@ public class GameController {
 			handler.post(new Runnable() {
 				@Override
 				public void run() {
-					Global.mainActivity.startSE(BarrelBallActivity.SE_BURST);
+					Global.mainActivity.startSE(BarrelBallActivity.SE_BURST, SEPlayer.NORMAL);
 				}
 			});
 		}
@@ -108,7 +108,7 @@ public class GameController {
 					Global.mainActivity.setBestRecord(point);
 					Global.mainActivity.gameOver();
 					if(!game_over_flag)
-						Global.mainActivity.startSE(BarrelBallActivity.SE_GAME_OVER);
+						Global.mainActivity.startSE(BarrelBallActivity.SE_GAME_OVER, SEPlayer.EXTRA_LARGE);
 				}
 			});
 			game_over_flag = true;
